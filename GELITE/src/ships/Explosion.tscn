@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://ughoohh4k4me"]
+
+[ext_resource type="Script" path="res://src/ships/Explosion.gd" id="1_itcuj"]
+[ext_resource type="AudioStream" uid="uid://dfai3ak7brgyt" path="res://src/ships/mixkit-explosion-with-rocks-debris-1703.ogg" id="2_du7cl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ttt5"]
+transparency = 1
+albedo_color = Color(1, 0.596078, 0.188235, 0.694118)
+metallic_specular = 1.0
+rim_enabled = true
+rim_tint = 0.12
+refraction_scale = 1.0
+proximity_fade_distance = 41.11
+
+[sub_resource type="SphereMesh" id="SphereMesh_mxems"]
+material = SubResource("StandardMaterial3D_8ttt5")
+
+[node name="Explosion" type="Node3D"]
+transform = Transform3D(1.00268, 0, 0, 0, 1.00268, 0, 0, 0, 1.00268, 0, 0, 0)
+script = ExtResource("1_itcuj")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(0.99865, 0, 0, 0, 0.99865, 0, 0, 0, 0.99865, 0, 0, 0)
+amount = 80
+mesh = SubResource("SphereMesh_mxems")
+emission_shape = 1
+emission_sphere_radius = 8.01
+particle_flag_rotate_y = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+scale_amount_min = 2.0
+scale_amount_max = 8.0
+color = Color(0.776471, 0.470588, 0.14902, 1)
+hue_variation_max = 1.0
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_du7cl")
+volume_db = 37.679
+pitch_scale = 0.63
+autoplay = true
+max_distance = 60.0

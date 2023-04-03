@@ -1,0 +1,342 @@
+[gd_scene load_steps=13 format=3 uid="uid://yi72g0qt6nm2"]
+
+[ext_resource type="Material" uid="uid://dm4ncq1308x0t" path="res://src/ships/basic.tres" id="2_qorj3"]
+[ext_resource type="Texture2D" uid="uid://c1h4d5srp62bb" path="res://icon.svg" id="3_841we"]
+[ext_resource type="Material" uid="uid://bh7vvrybjev30" path="res://src/ships/transport/propulsion.tres" id="3_iafka"]
+[ext_resource type="Script" path="res://src/ships/transport/VelocityLabel.gd" id="4_dldtf"]
+[ext_resource type="Script" path="res://src/ships/transport/velocity.gd" id="5_7if0x"]
+[ext_resource type="Texture2D" uid="uid://bo7misrkqn8y1" path="res://src/ships/transport/l0_sprite_1.png" id="6_1x58y"]
+[ext_resource type="Texture2D" uid="uid://cwa2og21j3j71" path="res://src/ships/transport/l1_sprite_1.png" id="7_5abqa"]
+
+[sub_resource type="GDScript" id="GDScript_e8qjk"]
+script/source = "extends CharacterBody3D
+
+#turning
+@export var pitch_speed = 1.5
+@export var roll_speed = 1.9
+@export var yaw_speed = 1.25
+
+var pitch_input = 0.0
+var roll_input = 0.0
+var yaw_input = 0.0
+
+#other 
+#camera 0 is 3rd person, 1 is first person
+var cameraNum = 0
+@onready var camera0 = $Camera3D
+@onready var camera1 = $Camera3D2
+@onready var overlayFP1 = $cross
+@onready var overlayFP2 = $outerOverlay
+
+const speed = .1
+const JUMP_VELOCITY = 4.5
+var ShipVelocity = Vector3()
+var shipTurnVelocity = Vector3()
+@onready var emitter1 = $\"enginePropulsion\"
+@onready var emitter2 = $\"enginePropulsion2\"
+@onready var emitter3 = $\"enginePropulsion3\"
+@onready var emitter4 = $\"enginePropulsion4\"
+@onready var emitter5 = $\"enginePropulsion5\"
+var hyper = false
+func _physics_process(delta):
+	emitter1.emitting = false
+	emitter2.emitting = false
+	emitter3.emitting = false
+	emitter4.emitting = false
+	emitter5.emitting = false
+	hyper =false
+	if Input.is_action_pressed(\"stop\"):
+		emitter1.emitting = true
+		emitter2.emitting = true
+		emitter3.emitting = true
+		emitter4.emitting = true
+		emitter5.emitting = true
+		if ShipVelocity.x > 0:
+			ShipVelocity.x -=speed
+		else:
+			ShipVelocity.x += speed
+			
+		if yaw_input > 0:
+			yaw_input -=speed
+		else:
+			yaw_input +=speed
+			
+		if roll_input> 0:
+			roll_input -=speed
+		else:
+			roll_input+=speed
+	if Input.is_action_pressed(\"hyper\"):
+		hyper = true
+	if hyper != false:
+		ShipVelocity.x =1000
+	if Input.is_action_just_released(\"hyper\"):
+		ShipVelocity.x = 0
+	if Input.is_action_pressed(\"accelerateForward\"):
+		emitter1.emitting = true
+		if ShipVelocity.x < 10:
+			ShipVelocity.x +=9
+	if Input.is_action_pressed(\"ui_right\"):
+		emitter3.emitting = true
+		yaw_input -=.01
+		if ShipVelocity.x >.1:
+			ShipVelocity.x -=.1
+	if Input.is_action_pressed(\"ui_left\"):
+		emitter2.emitting = true
+		yaw_input +=.01
+		if ShipVelocity.x >.1:
+			ShipVelocity.x -=.1
+	if Input.is_action_pressed(\"ui_up\"):
+		emitter4.emitting = true
+		roll_input -=.01
+		if ShipVelocity.x >.1:
+			ShipVelocity.x -=.1
+		elif ShipVelocity.x < 0:
+			ShipVelocity.x +=.1
+	if Input.is_action_pressed(\"ui_down\"):
+		emitter5.emitting = true
+		roll_input +=.01
+		if ShipVelocity.x >.1:
+			ShipVelocity.x -=.1
+		elif ShipVelocity.x < 0:
+			ShipVelocity.x +=.1
+	if Input.is_action_just_released(\"cameraSwap\"):
+		if cameraNum == 0:
+			camera1.current = true
+			camera0.current = false
+			cameraNum = 1
+			overlayFP1.visible = true
+			overlayFP2.visible = true
+			
+		else:
+			camera1.current = false
+			camera0.current = true
+			cameraNum =0
+			overlayFP1.visible = false
+			overlayFP2.visible = false
+	transform.basis = transform.basis.rotated(transform.basis.z,roll_input * roll_speed * delta)
+	transform.basis = transform.basis.rotated(transform.basis.x,pitch_input * pitch_speed * delta)
+	transform.basis = transform.basis.rotated(transform.basis.y, yaw_input * yaw_speed * delta)
+	transform.basis = transform.basis.orthonormalized()
+	velocity = transform.basis.x * ShipVelocity.x
+	move_and_collide(velocity * delta)
+"
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3vmyr"]
+radius = 0.2
+height = 5.0
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_ya373"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fewqj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ipoou"]
+material = ExtResource("3_iafka")
+
+[node name="Transport" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00603104, 0.018364, -0.000966072)
+script = SubResource("GDScript_e8qjk")
+
+[node name="ship" type="CSGMesh3D" parent="."]
+transform = Transform3D(-5.19291e-08, 0.237, 6.91742e-09, -1.188, -1.03596e-08, 8.74228e-08, 1.03858e-07, -1.63943e-09, 1, -0.408, 0, 0)
+mesh = SubResource("CapsuleMesh_3vmyr")
+material = ExtResource("2_qorj3")
+
+[node name="CSGTorus3D" type="CSGTorus3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+inner_radius = 3.0
+outer_radius = 1.5
+material = ExtResource("2_qorj3")
+
+[node name="support1" type="CSGMesh3D" parent="."]
+transform = Transform3D(-1, -7.35879e-08, 0, 8.74228e-08, -0.841748, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_3vmyr")
+material = ExtResource("2_qorj3")
+
+[node name="support2" type="CSGMesh3D" parent="."]
+transform = Transform3D(-1, -7.35879e-08, 0, -3.82137e-15, 3.6794e-08, 1, -8.74228e-08, 0.841748, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_3vmyr")
+material = ExtResource("2_qorj3")
+
+[node name="engine1" type="CSGMesh3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.133, 0, 0)
+mesh = SubResource("TubeTrailMesh_ya373")
+material = ExtResource("2_qorj3")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.22847, 0, 0)
+texture = ExtResource("3_841we")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-2.33142e-07, 0.818121, 0, -5.33366, -3.57612e-08, 0, 0, 0, 5.26034, -0.175316, 0, 0)
+shape = SubResource("CylinderShape3D_fewqj")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(-3.45703e-07, 1, 0, -1, -3.45703e-07, 0, 0, 0, 1, -0.666, 0, 0)
+shape = SubResource("CylinderShape3D_fewqj")
+
+[node name="enginePropulsion" type="CPUParticles3D" parent="."]
+transform = Transform3D(-0.480819, 0, -1.05246e-08, 0, 0.106833, 0, 4.20345e-08, 0, -0.120388, -1.00902, 0.0121702, -0.000443839)
+emitting = false
+amount = 30
+lifetime = 23.55
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+scale_amount_max = 3.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -9.01252, 3.56754, 0)
+rotation_edit_mode = 1
+size = 3049.19
+far = 50000.0
+
+[node name="enginePropulsion2" type="CPUParticles3D" parent="."]
+transform = Transform3D(1.51659e-08, 0, -0.0578846, 0, 0.0114132, 0, 0.0578847, 0, 5.69395e-09, 0, 0.013, 2.833)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+scale_amount_max = 3.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="enginePropulsion3" type="CPUParticles3D" parent="."]
+transform = Transform3D(-2.02264e-08, 0, 0.0578846, 0, 0.0114132, 0, -0.0578846, 0, -1.07544e-08, 0, 0, -3.01846)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+scale_amount_max = 3.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="enginePropulsion4" type="CPUParticles3D" parent="."]
+transform = Transform3D(-2.02264e-08, 0, 0.0578846, 0.0578846, -4.98887e-10, 1.07544e-08, 2.53022e-09, 0.0114132, 4.7009e-16, 0.200028, 2.8439, 0.0120623)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+scale_amount_max = 3.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="enginePropulsion5" type="CPUParticles3D" parent="."]
+transform = Transform3D(2.52868e-08, -4.36141e-17, -0.0578846, -0.0578846, 4.98887e-10, -1.58148e-08, 2.53022e-09, 0.0114132, 4.7009e-16, 0.200028, -2.8561, 0.0120623)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+scale_amount_max = 3.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="velocity" type="Label" parent="."]
+top_level = true
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("4_dldtf")
+
+[node name="position" type="Label" parent="."]
+top_level = true
+anchors_preset = -1
+anchor_top = 0.088
+anchor_bottom = 0.088
+offset_top = -0.0240059
+offset_right = 40.0
+offset_bottom = 22.976
+script = ExtResource("5_7if0x")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(-0.0871558, 0, -0.996195, 0, 1, 0, 0.996195, 0, -0.0871558, 0, 0, 0)
+light_energy = 16.0
+spot_range = 25.885
+spot_attenuation = 0.392292
+spot_angle = 51.07
+spot_angle_attenuation = 0.5
+
+[node name="Camera3D2" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.239343, 0, 0)
+current = true
+near = 0.095
+far = 50000.0
+
+[node name="outerOverlay" type="Sprite2D" parent="."]
+modulate = Color(0.682353, 1, 1, 1)
+position = Vector2(576, 328)
+scale = Vector2(9.125, 5.25)
+texture = ExtResource("6_1x58y")
+
+[node name="cross" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(2, 2)
+texture = ExtResource("7_5abqa")
