@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends StaticBody3D
 
 #func _process(delta):
 #	for x in get_parent().get_children():

@@ -1,21 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://rewqc3kvx1my"]
+[gd_scene load_steps=5 format=3 uid="uid://rewqc3kvx1my"]
 
 [ext_resource type="Script" path="res://src/celestialBodies/star.gd" id="1_1fbmw"]
-[ext_resource type="Texture2D" uid="uid://c1h4d5srp62bb" path="res://icon.svg" id="1_iw5px"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_px1if"]
-transparency = 1
-albedo_color = Color(1, 1, 0.403922, 1)
-metallic_specular = 1.0
-roughness = 0.5
-rim_tint = 0.0
-ao_light_affect = 0.99
-refraction_scale = 0.45
-refraction_texture = ExtResource("1_iw5px")
-grow = true
+[ext_resource type="Material" uid="uid://chjyjyeluumhl" path="res://src/celestialBodies/star.tres" id="2_dk21s"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_8dslf"]
-material = SubResource("StandardMaterial3D_px1if")
+lightmap_size_hint = Vector2i(159, 80)
+material = ExtResource("2_dk21s")
 flip_faces = true
 radius = 5.0
 height = 10.0
@@ -24,13 +14,11 @@ height = 10.0
 margin = 0.094
 radius = 5.57226
 
-[node name="star" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.109198, 0.17562, 0.153918)
-mass = 1e+08
-gravity_scale = 128.0
+[node name="StaticBody3D" type="StaticBody3D"]
 script = ExtResource("1_1fbmw")
 
 [node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.109198, 0.17562, 0.153918)
 gravity_space_override = 4
 gravity_point_unit_distance = 50000.0
 gravity_point_center = Vector3(0, 0, 0)
@@ -54,5 +42,3 @@ omni_attenuation = 0.060371
 [node name="starColl" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(400, 0, 0, 0, 400, 0, 0, 0, 400, 0, 0, 0)
 shape = SubResource("SphereShape3D_y7khj")
-
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

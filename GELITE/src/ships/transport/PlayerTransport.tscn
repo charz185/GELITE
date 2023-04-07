@@ -201,6 +201,7 @@ color = Color(0.282353, 1, 1, 1)
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -9.01252, 3.56754, 0)
 rotation_edit_mode = 1
+current = true
 size = 3049.19
 far = 50000.0
 
@@ -326,17 +327,18 @@ spot_angle_attenuation = 0.5
 
 [node name="Camera3D2" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.239343, 0, 0)
-current = true
 near = 0.095
 far = 50000.0
 
 [node name="outerOverlay" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(0.682353, 1, 1, 1)
 position = Vector2(576, 328)
 scale = Vector2(9.125, 5.25)
 texture = ExtResource("6_1x58y")
 
 [node name="cross" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(576, 324)
 scale = Vector2(2, 2)
 texture = ExtResource("7_5abqa")
