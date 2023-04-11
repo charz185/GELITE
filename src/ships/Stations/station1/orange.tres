@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cy7vigorkore3"]
+
+[resource]
+albedo_color = Color(1, 0.635294, 0.231373, 1)
+metallic = 1.0
+metallic_specular = 0.0

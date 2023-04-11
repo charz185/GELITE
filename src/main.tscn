@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://dy6ir6jpkd4xc"]
+
+[ext_resource type="Script" path="res://src/main.gd" id="1_gq5e7"]
+[ext_resource type="PackedScene" uid="uid://yi72g0qt6nm2" path="res://src/ships/transport/PlayerTransport.tscn" id="1_ibqe8"]
+[ext_resource type="Texture2D" uid="uid://cqgniaex76stw" path="res://src/pexels-nicole-avagliano-2706654.jpg" id="2_nwh6c"]
+[ext_resource type="PackedScene" uid="uid://rewqc3kvx1my" path="res://src/celestialBodies/star.tscn" id="3_8f7ge"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_th72c"]
+mie_coefficient = 0.0
+ground_color = Color(0, 0, 0, 1)
+energy_multiplier = 0.5
+use_debanding = false
+night_sky = ExtResource("2_nwh6c")
+
+[sub_resource type="Sky" id="Sky_l4eg8"]
+sky_material = SubResource("PhysicalSkyMaterial_th72c")
+radiance_size = 0
+
+[sub_resource type="Environment" id="Environment_xiros"]
+background_mode = 2
+background_energy_multiplier = 0.1
+sky = SubResource("Sky_l4eg8")
+ambient_light_source = 1
+ambient_light_color = Color(0.603922, 0.568627, 0.266667, 1)
+ambient_light_energy = 0.0
+reflected_light_source = 2
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_gq5e7")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xiros")
+metadata/ClearOnRandomize = false
+
+[node name="Transport" parent="." instance=ExtResource("1_ibqe8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3956.77, 0, 0)
+metadata/ClearOnRandomize = false
+
+[node name="Star" parent="." instance=ExtResource("3_8f7ge")]
+metadata/ClearOnRandomize = false

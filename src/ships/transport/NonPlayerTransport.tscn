@@ -1,0 +1,177 @@
+[gd_scene load_steps=9 format=3 uid="uid://brgs3pc1pxu4l"]
+
+[ext_resource type="Script" path="res://src/ships/transport/NonPlayertransport-godotFlavor.gd" id="1_nccdb"]
+[ext_resource type="Material" uid="uid://dm4ncq1308x0t" path="res://src/ships/basic.tres" id="2_yp48c"]
+[ext_resource type="Texture2D" uid="uid://c1h4d5srp62bb" path="res://icon.svg" id="3_po7bl"]
+[ext_resource type="Material" uid="uid://bh7vvrybjev30" path="res://src/ships/transport/propulsion.tres" id="4_g6og4"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3vmyr"]
+radius = 0.2
+height = 5.0
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_ya373"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ipoou"]
+material = ExtResource("4_g6og4")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fewqj"]
+
+[node name="NonPlayerTransport" type="CharacterBody3D"]
+script = ExtResource("1_nccdb")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="ship" type="CSGMesh3D" parent="Area3D"]
+transform = Transform3D(-5.19291e-08, 0.237, 6.91742e-09, -1.188, -1.03596e-08, 8.74228e-08, 1.03858e-07, -1.63943e-09, 1, -0.408, 0, 0)
+mesh = SubResource("CapsuleMesh_3vmyr")
+material = ExtResource("2_yp48c")
+
+[node name="CSGTorus3D" type="CSGTorus3D" parent="Area3D"]
+transform = Transform3D(-4.37114e-08, 1, -4.44089e-16, -1, -4.37114e-08, 0, 7.10543e-15, 0, 1, 0, 2.46734e-16, 0)
+inner_radius = 3.0
+outer_radius = 1.5
+material = ExtResource("2_yp48c")
+
+[node name="support1" type="CSGMesh3D" parent="Area3D"]
+transform = Transform3D(-1, -7.35879e-08, -4.44089e-16, 8.74228e-08, -0.841748, 0, -4.44089e-16, 0, 1, 0, 2.46734e-16, 0)
+mesh = SubResource("CapsuleMesh_3vmyr")
+material = ExtResource("2_yp48c")
+
+[node name="support2" type="CSGMesh3D" parent="Area3D"]
+transform = Transform3D(-1, -7.35879e-08, 3.02368e-16, -4.69477e-15, 3.6794e-08, 1, -8.74228e-08, 0.841748, -4.37114e-08, 0, 2.46734e-16, 0)
+mesh = SubResource("CapsuleMesh_3vmyr")
+material = ExtResource("2_yp48c")
+
+[node name="engine1" type="CSGMesh3D" parent="Area3D"]
+transform = Transform3D(-4.37114e-08, -1, -4.44089e-16, 1, -4.37114e-08, 0, -7.10543e-15, -4.44089e-16, 1, -1.133, -4.38437e-16, -4.44089e-16)
+mesh = SubResource("TubeTrailMesh_ya373")
+material = ExtResource("2_yp48c")
+
+[node name="Sprite3D" type="Sprite3D" parent="Area3D"]
+transform = Transform3D(-4.37114e-08, 6.04739e-16, 1, 0, 1, 3.36082e-16, -1, -7.10543e-15, -4.37114e-08, 0.22847, -1.39146e-15, 0)
+texture = ExtResource("3_po7bl")
+
+[node name="enginePropulsion" type="CPUParticles3D" parent="Area3D"]
+transform = Transform3D(-0.480819, 6.4606e-17, -1.05246e-08, -1.94507e-15, 0.106833, 0, 4.20345e-08, 0, -0.120388, -1.00902, 0.0121702, -0.000443839)
+emitting = false
+amount = 30
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="enginePropulsion2" type="CPUParticles3D" parent="Area3D"]
+transform = Transform3D(1.51659e-08, 6.902e-18, -0.0578846, 0, 0.0114132, 1.86867e-17, 0.0578847, -1.11022e-16, 5.69395e-09, 0, 0.013, 2.833)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="enginePropulsion3" type="CPUParticles3D" parent="Area3D"]
+transform = Transform3D(-2.02264e-08, 6.902e-18, 0.0578846, 0, 0.0114132, 2.05048e-16, -0.0578846, -1.11022e-16, -1.07544e-08, 0, 0, -3.01846)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="enginePropulsion4" type="CPUParticles3D" parent="Area3D"]
+transform = Transform3D(-2.02264e-08, -6.93889e-18, 0.0578846, 0.0578846, -4.98887e-10, 1.07544e-08, 2.53022e-09, 0.0114132, 4.71845e-16, 0.200028, 2.8439, 0.0120623)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="enginePropulsion5" type="CPUParticles3D" parent="Area3D"]
+transform = Transform3D(2.52868e-08, -4.85723e-17, -0.0578846, -0.0578846, 4.98887e-10, -1.58148e-08, 2.53022e-09, 0.0114132, 4.71845e-16, 0.200028, -2.8561, 0.0120623)
+emitting = false
+amount = 20
+lifetime = 10.32
+preprocess = 0.3
+speed_scale = 25.57
+lifetime_randomness = 0.12
+fixed_fps = 30
+fract_delta = false
+mesh = SubResource("SphereMesh_ipoou")
+particle_flag_rotate_y = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.71
+initial_velocity_max = 60.61
+angular_velocity_max = 0.21
+tangential_accel_min = 42.42
+tangential_accel_max = 100.0
+angle_min = -720.0
+angle_max = -720.0
+color = Color(0.282353, 1, 1, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(-2.53801e-07, 0.678705, -3.55271e-15, -5.80629, -2.96672e-08, 0, 0, 0, 5.61477, 1.90437e-05, 2.46746e-16, 0)
+shape = SubResource("CylinderShape3D_fewqj")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(-3.45703e-07, 1, -4.44089e-16, -1, -3.45703e-07, 0, 7.10543e-15, 0, 1, -0.666, -2.82056e-15, -1.11022e-16)
+shape = SubResource("CylinderShape3D_fewqj")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

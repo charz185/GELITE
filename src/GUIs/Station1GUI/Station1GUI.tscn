@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdmqiifx4ohuj"]
+
+[ext_resource type="Texture2D" uid="uid://bg2jsaubky8x5" path="res://src/GUIs/Station1GUI/bg.png" id="1_a70l4"]
+[ext_resource type="Script" path="res://src/GUIs/Station1GUI/Station1GUI.gd" id="1_du250"]
+
+[node name="Station1GUI" type="Node2D"]
+top_level = true
+script = ExtResource("1_du250")
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(576, 320)
+scale = Vector2(6.55, 4)
+texture = ExtResource("1_a70l4")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 419.0
+offset_top = 464.0
+offset_right = 739.0
+offset_bottom = 544.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dyh78xj1onuif"]
+
+[ext_resource type="Texture2D" uid="uid://c1h4d5srp62bb" path="res://icon.svg" id="1_0ujgc"]
+[ext_resource type="Texture2D" uid="uid://bv0dpp8xm8t0x" path="res://src/ships/Stations/BrokenStation1/100-20-40-monochrome.png" id="1_onqxu"]
+
+[resource]
+albedo_color = Color(0.486275, 0, 0.0156863, 1)
+albedo_texture = ExtResource("1_onqxu")
+metallic = 1.0
+metallic_specular = 0.74
+heightmap_scale = 4.111
+heightmap_texture = ExtResource("1_0ujgc")

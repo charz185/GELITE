@@ -1,0 +1,16 @@
+[gd_resource type="SphereMesh" load_steps=3 format=3 uid="uid://bp5sw0rf0v8b8"]
+
+[ext_resource type="Texture2D" uid="uid://cq8gkjb2skq7x" path="res://src/celestialBodies/starNoise.png" id="1_dqs30"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ttt5"]
+transparency = 1
+albedo_color = Color(1, 0.596078, 0.188235, 0.694118)
+albedo_texture = ExtResource("1_dqs30")
+metallic_specular = 1.0
+rim_enabled = true
+rim_tint = 0.12
+refraction_scale = 1.0
+proximity_fade_distance = 41.11
+
+[resource]
+material = SubResource("StandardMaterial3D_8ttt5")
