@@ -1,19 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ughoohh4k4me"]
+[gd_scene load_steps=4 format=3 uid="uid://ughoohh4k4me"]
 
 [ext_resource type="Script" path="res://src/ships/Explosion.gd" id="1_itcuj"]
 [ext_resource type="AudioStream" uid="uid://dfai3ak7brgyt" path="res://src/ships/mixkit-explosion-with-rocks-debris-1703.ogg" id="2_du7cl"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ttt5"]
-transparency = 1
-albedo_color = Color(1, 0.596078, 0.188235, 0.694118)
-metallic_specular = 1.0
-rim_enabled = true
-rim_tint = 0.12
-refraction_scale = 1.0
-proximity_fade_distance = 41.11
-
-[sub_resource type="SphereMesh" id="SphereMesh_mxems"]
-material = SubResource("StandardMaterial3D_8ttt5")
+[ext_resource type="SphereMesh" uid="uid://bp5sw0rf0v8b8" path="res://src/ships/ExplosionMesh.tres" id="2_jktrt"]
 
 [node name="Explosion" type="Node3D"]
 transform = Transform3D(1.00268, 0, 0, 0, 1.00268, 0, 0, 0, 1.00268, 0, 0, 0)
@@ -22,7 +11,7 @@ script = ExtResource("1_itcuj")
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 transform = Transform3D(0.99865, 0, 0, 0, 0.99865, 0, 0, 0, 0.99865, 0, 0, 0)
 amount = 80
-mesh = SubResource("SphereMesh_mxems")
+mesh = ExtResource("2_jktrt")
 emission_shape = 1
 emission_sphere_radius = 8.01
 particle_flag_rotate_y = true

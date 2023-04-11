@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b8w0k8qgl3dq"]
+[gd_scene load_steps=5 format=3 uid="uid://dy6ir6jpkd4xc"]
 
+[ext_resource type="Script" path="res://src/main.gd" id="1_gq5e7"]
 [ext_resource type="PackedScene" uid="uid://yi72g0qt6nm2" path="res://src/ships/transport/PlayerTransport.tscn" id="1_ibqe8"]
-[ext_resource type="PackedScene" uid="uid://brgs3pc1pxu4l" path="res://src/ships/transport/NonPlayerTransport.tscn" id="2_g2yma"]
-[ext_resource type="PackedScene" uid="uid://rewqc3kvx1my" path="res://src/celestialBodies/star.tscn" id="3_iqjpw"]
-[ext_resource type="PackedScene" uid="uid://dw055pvpxc3tb" path="res://src/ships/Stations/station1/station1.tscn" id="4_1nfob"]
+[ext_resource type="PackedScene" uid="uid://rewqc3kvx1my" path="res://src/celestialBodies/star.tscn" id="3_8f7ge"]
 
 [sub_resource type="Environment" id="Environment_xiros"]
 background_mode = 1
@@ -13,17 +12,15 @@ ambient_light_color = Color(0.603922, 0.568627, 0.266667, 1)
 ambient_light_energy = 0.0
 
 [node name="main" type="Node3D"]
-
-[node name="star" parent="." instance=ExtResource("3_iqjpw")]
+script = ExtResource("1_gq5e7")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xiros")
+metadata/ClearOnRandomize = false
 
 [node name="Transport" parent="." instance=ExtResource("1_ibqe8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2320.62, 787.71, 2807.14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3956.77, 0, 0)
+metadata/ClearOnRandomize = false
 
-[node name="Transport2" parent="." instance=ExtResource("2_g2yma")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2317.77, 787.945, 2801.97)
-
-[node name="station1" parent="." instance=ExtResource("4_1nfob")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3273.09, 818.814, 627.237)
+[node name="Star" parent="." instance=ExtResource("3_8f7ge")]
+metadata/ClearOnRandomize = false

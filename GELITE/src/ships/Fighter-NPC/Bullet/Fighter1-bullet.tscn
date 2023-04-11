@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://tsoho2l6p1iy"]
+
+[ext_resource type="Script" path="res://src/ships/Fighter-NPC/Bullet/Fighter1-bullet.gd" id="1_6k8ww"]
+[ext_resource type="Material" uid="uid://bh7vvrybjev30" path="res://src/ships/transport/propulsion.tres" id="1_uxup6"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sljcl"]
+radius = 0.05
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qoopd"]
+material = ExtResource("1_uxup6")
+radius = 0.05
+height = 0.1
+
+[node name="FighterNPCBullet" type="RigidBody3D"]
+script = ExtResource("1_6k8ww")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_sljcl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_qoopd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_sljcl")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

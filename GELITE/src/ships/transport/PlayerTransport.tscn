@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://yi72g0qt6nm2"]
+[gd_scene load_steps=15 format=3 uid="uid://yi72g0qt6nm2"]
 
 [ext_resource type="Material" uid="uid://dm4ncq1308x0t" path="res://src/ships/basic.tres" id="2_qorj3"]
 [ext_resource type="Texture2D" uid="uid://c1h4d5srp62bb" path="res://icon.svg" id="3_841we"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://src/ships/transport/velocity.gd" id="5_7if0x"]
 [ext_resource type="Texture2D" uid="uid://bo7misrkqn8y1" path="res://src/ships/transport/l0_sprite_1.png" id="6_1x58y"]
 [ext_resource type="Texture2D" uid="uid://cwa2og21j3j71" path="res://src/ships/transport/l1_sprite_1.png" id="7_5abqa"]
+[ext_resource type="PackedScene" uid="uid://b1guu60cqgtc7" path="res://src/ships/transport/Transport1Warp.tscn" id="8_33g0t"]
+[ext_resource type="Texture2D" uid="uid://d1fivqw827nm8" path="res://src/ships/transport/WarpBlink.png" id="9_ljyl4"]
 
 [sub_resource type="GDScript" id="GDScript_e8qjk"]
 script/source = "extends CharacterBody3D
@@ -38,6 +40,8 @@ var shipTurnVelocity = Vector3()
 @onready var emitter4 = $\"enginePropulsion4\"
 @onready var emitter5 = $\"enginePropulsion5\"
 var hyper = false
+var warping = false
+var WarpTimer = 0
 func _physics_process(delta):
 	emitter1.emitting = false
 	emitter2.emitting = false
@@ -113,6 +117,18 @@ func _physics_process(delta):
 			cameraNum =0
 			overlayFP1.visible = false
 			overlayFP2.visible = false
+	if Input.is_action_just_released(\"Warp\") && WarpTimer<=0:
+		warping = true
+		WarpTimer = 20
+		get_node(\"Transport1Warp\").visible = true
+	if warping:
+		WarpTimer -=1
+		get_node(\"WarpBlink\").visible = !get_node(\"WarpBlink\").visible 
+		if WarpTimer <=0:
+			WarpTimer = 0
+			warping = false
+			get_parent().randomizeSystem()
+			get_node(\"Transport1Warp\").visible = false
 	transform.basis = transform.basis.rotated(transform.basis.z,roll_input * roll_speed * delta)
 	transform.basis = transform.basis.rotated(transform.basis.x,pitch_input * pitch_speed * delta)
 	transform.basis = transform.basis.rotated(transform.basis.y, yaw_input * yaw_speed * delta)
@@ -131,6 +147,8 @@ height = 5.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_ipoou"]
 material = ExtResource("3_iafka")
+radius = 0.2
+height = 0.5
 
 [node name="Transport" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00603104, 0.018364, -0.000966072)
@@ -195,7 +213,7 @@ tangential_accel_min = 42.42
 tangential_accel_max = 100.0
 angle_min = -720.0
 angle_max = -720.0
-scale_amount_max = 3.0
+scale_amount_max = 2.0
 color = Color(0.282353, 1, 1, 1)
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -226,7 +244,7 @@ tangential_accel_min = 42.42
 tangential_accel_max = 100.0
 angle_min = -720.0
 angle_max = -720.0
-scale_amount_max = 3.0
+scale_amount_max = 2.0
 color = Color(0.282353, 1, 1, 1)
 
 [node name="enginePropulsion3" type="CPUParticles3D" parent="."]
@@ -250,7 +268,7 @@ tangential_accel_min = 42.42
 tangential_accel_max = 100.0
 angle_min = -720.0
 angle_max = -720.0
-scale_amount_max = 3.0
+scale_amount_max = 2.0
 color = Color(0.282353, 1, 1, 1)
 
 [node name="enginePropulsion4" type="CPUParticles3D" parent="."]
@@ -274,11 +292,11 @@ tangential_accel_min = 42.42
 tangential_accel_max = 100.0
 angle_min = -720.0
 angle_max = -720.0
-scale_amount_max = 3.0
+scale_amount_max = 2.0
 color = Color(0.282353, 1, 1, 1)
 
 [node name="enginePropulsion5" type="CPUParticles3D" parent="."]
-transform = Transform3D(2.52868e-08, -4.36141e-17, -0.0578846, -0.0578846, 4.98887e-10, -1.58148e-08, 2.53022e-09, 0.0114132, 4.7009e-16, 0.200028, -2.8561, 0.0120623)
+transform = Transform3D(2.52868e-08, -4.36141e-17, -0.0578846, -0.0578846, 4.98887e-10, -1.58148e-08, 2.53022e-09, 0.0114132, 4.7009e-16, 0, 0, 0)
 emitting = false
 amount = 20
 lifetime = 10.32
@@ -298,16 +316,18 @@ tangential_accel_min = 42.42
 tangential_accel_max = 100.0
 angle_min = -720.0
 angle_max = -720.0
-scale_amount_max = 3.0
+scale_amount_max = 2.0
 color = Color(0.282353, 1, 1, 1)
 
 [node name="velocity" type="Label" parent="."]
+modulate = Color(0.352941, 1, 0.917647, 1)
 top_level = true
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("4_dldtf")
 
 [node name="position" type="Label" parent="."]
+modulate = Color(0.352941, 1, 0.917647, 1)
 top_level = true
 anchors_preset = -1
 anchor_top = 0.088
@@ -342,3 +362,14 @@ visible = false
 position = Vector2(576, 324)
 scale = Vector2(2, 2)
 texture = ExtResource("7_5abqa")
+
+[node name="Transport1Warp" parent="." instance=ExtResource("8_33g0t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.642805, 0.48553, -0.156455)
+visible = false
+
+[node name="WarpBlink" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.435294)
+position = Vector2(576, 320)
+scale = Vector2(36, 20)
+texture = ExtResource("9_ljyl4")

@@ -6,7 +6,6 @@
 [sub_resource type="SphereMesh" id="SphereMesh_8dslf"]
 lightmap_size_hint = Vector2i(159, 80)
 material = ExtResource("2_dk21s")
-flip_faces = true
 radius = 5.0
 height = 10.0
 
@@ -14,8 +13,23 @@ height = 10.0
 margin = 0.094
 radius = 5.57226
 
-[node name="StaticBody3D" type="StaticBody3D"]
+[node name="Star" type="StaticBody3D"]
 script = ExtResource("1_1fbmw")
+
+[node name="starLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.109198, 0.17562, 0.153918)
+light_color = Color(0.717647, 0.494118, 0.141176, 1)
+light_energy = 16.0
+light_indirect_energy = 4.4
+light_size = 1.0
+light_specular = 4.5
+omni_range = 15000.0
+omni_attenuation = 0.00133402
+
+[node name="starMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(400, 0, 0, 0, 400, 0, 0, 0, 400, -0.26944, 4.25622, 0.268005)
+mesh = SubResource("SphereMesh_8dslf")
+skeleton = NodePath("")
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.109198, 0.17562, 0.153918)
@@ -25,20 +39,8 @@ gravity_point_center = Vector3(0, 0, 0)
 gravity_direction = Vector3(0, 0, 0)
 gravity = 100000.0
 
-[node name="starMesh" type="MeshInstance3D" parent="Area3D"]
-transform = Transform3D(400, 0, 0, 0, 400, 0, 0, 0, 400, -0.160242, 4.0806, 0.114087)
-mesh = SubResource("SphereMesh_8dslf")
-skeleton = NodePath("")
-
-[node name="starLight" type="OmniLight3D" parent="Area3D"]
-light_color = Color(1, 1, 0.337255, 1)
-light_energy = 13.745
-light_indirect_energy = 4.4
-light_size = 0.525
-light_specular = 4.5
-omni_range = 8126.0
-omni_attenuation = 0.060371
-
 [node name="starColl" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(400, 0, 0, 0, 400, 0, 0, 0, 400, 0, 0, 0)
 shape = SubResource("SphereShape3D_y7khj")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

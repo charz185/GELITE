@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1504wxkxpivq"]
+[gd_scene load_steps=6 format=3 uid="uid://d1504wxkxpivq"]
+
+[ext_resource type="Script" path="res://src/ships/Obj/capsule/blinking.gd" id="1_5g4em"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6xiv"]
 albedo_color = Color(0.219608, 0.494118, 0.701961, 1)
@@ -26,18 +28,24 @@ mesh = SubResource("CapsuleMesh_66ccy")
 [node name="OmniLight3D" type="OmniLight3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 1.86265e-09, 1, 0, 1.38178, 0.0258077)
 light_color = Color(0.603922, 0, 0.0784314, 1)
-light_energy = 5.681
-light_size = 0.125
+light_energy = 2.346
+light_volumetric_fog_energy = 7.8
+light_size = 1.0
+light_specular = 5.839
 omni_range = 4096.0
-omni_attenuation = 0.707107
+omni_attenuation = 0.450625
+script = ExtResource("1_5g4em")
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 1.86265e-09, 1, 0, -1.20868, -0.0225748)
 light_color = Color(0.603922, 0, 0.0784314, 1)
-light_energy = 5.681
-light_size = 0.125
+light_energy = 2.346
+light_volumetric_fog_energy = 7.8
+light_size = 1.0
+light_specular = 5.839
 omni_range = 4096.0
-omni_attenuation = 0.707107
+omni_attenuation = 0.450625
+script = ExtResource("1_5g4em")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, -9.31323e-09, 0, 9.31323e-09, 1, 0, 0.531858, 0.00993359)

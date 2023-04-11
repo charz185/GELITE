@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ce1rwxvn0rerp"]
+
+[ext_resource type="Texture2D" uid="uid://bv0dpp8xm8t0x" path="res://src/ships/Stations/BrokenStation1/100-20-40-monochrome.png" id="1_i6ijs"]
+
+[resource]
+albedo_color = Color(0.266667, 0.505882, 0.211765, 1)
+albedo_texture = ExtResource("1_i6ijs")
